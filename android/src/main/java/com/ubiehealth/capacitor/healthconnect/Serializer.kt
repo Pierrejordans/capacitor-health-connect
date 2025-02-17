@@ -33,7 +33,17 @@ import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation
 import androidx.health.connect.client.records.metadata.DataOrigin
 import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.time.TimeRangeFilter
-import androidx.health.connect.client.units.*
+import androidx.health.connect.client.units.BloodGlucose
+import androidx.health.connect.client.units.Energy
+import androidx.health.connect.client.units.Length
+import androidx.health.connect.client.units.Mass
+import androidx.health.connect.client.units.MealType
+import androidx.health.connect.client.units.Percentage
+import androidx.health.connect.client.units.Power
+import androidx.health.connect.client.units.Pressure
+import androidx.health.connect.client.units.Speed
+import androidx.health.connect.client.units.Temperature
+import androidx.health.connect.client.units.Volume
 import com.getcapacitor.JSObject
 import org.json.JSONArray
 import org.json.JSONObject
@@ -648,20 +658,20 @@ internal fun JSONObject.getVolume(name: String): Volume {
     }
 }
 
-internal fun Speed.toJSONObject(): JSONObject {
+internal fun androidx.health.connect.client.units.Speed.toJSONObject(): JSONObject {
     return JSONObject().also { obj ->
         obj.put("unit", "metersPerSecond") // TODO: support other units
         obj.put("value", this.inMetersPerSecond)
     }
 }
 
-internal fun JSONObject.getSpeed(name: String): Speed {
+internal fun JSONObject.getSpeed(name: String): androidx.health.connect.client.units.Speed {
     val obj = requireNotNull(this.getJSONObject(name))
     val value = obj.getDouble("value")
     return when (val unit = obj.getString("unit")) {
-        "metersPerSecond" -> Speed.metersPerSecond(value)
-        "kilometersPerHour" -> Speed.kilometersPerHour(value)
-        "milesPerHour" -> Speed.milesPerHour(value)
+        "metersPerSecond" -> androidx.health.connect.client.units.Speed.metersPerSecond(value)
+        "kilometersPerHour" -> androidx.health.connect.client.units.Speed.kilometersPerHour(value)
+        "milesPerHour" -> androidx.health.connect.client.units.Speed.milesPerHour(value)
         else -> throw RuntimeException("Invalid Speed unit: $unit")
     }
 }

@@ -24,6 +24,7 @@ import androidx.health.connect.client.request.ChangesTokenRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Mass
+import androidx.health.connect.client.units.Speed
 import androidx.health.platform.client.proto.PermissionProto
 import androidx.lifecycle.lifecycleScope
 import com.getcapacitor.JSArray
