@@ -648,20 +648,20 @@ internal fun JSONObject.getVolume(name: String): Volume {
     }
 }
 
-internal fun androidx.health.connect.client.units.Speed.toJSONObject(): JSONObject {
+internal fun Speed.toJSONObject(): JSONObject {
     return JSONObject().also { obj ->
         obj.put("unit", "metersPerSecond") // TODO: support other units
         obj.put("value", this.inMetersPerSecond)
     }
 }
 
-internal fun JSONObject.getSpeed(name: String): androidx.health.connect.client.units.Speed {
+internal fun JSONObject.getSpeed(name: String): Speed {
     val obj = requireNotNull(this.getJSONObject(name))
     val value = obj.getDouble("value")
     return when (val unit = obj.getString("unit")) {
-        "metersPerSecond" -> androidx.health.connect.client.units.Speed.metersPerSecond(value)
-        "kilometersPerHour" -> androidx.health.connect.client.units.Speed.kilometersPerHour(value)
-        "milesPerHour" -> androidx.health.connect.client.units.Speed.milesPerHour(value)
+        "metersPerSecond" -> Speed.metersPerSecond(value)
+        "kilometersPerHour" -> Speed.kilometersPerHour(value)
+        "milesPerHour" -> Speed.milesPerHour(value)
         else -> throw RuntimeException("Invalid Speed unit: $unit")
     }
 }
