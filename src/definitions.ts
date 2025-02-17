@@ -46,17 +46,41 @@ export type RecordType =
   | 'BloodPressure'
   | 'BodyFat'
   | 'BodyTemperature'
+  | 'Distance'
+  | 'ExerciseSession'
+  | 'FloorsClimbed'
   | 'HeartRateSeries'
   | 'Height'
+  | 'Hydration'
+  | 'Nutrition'
   | 'OxygenSaturation'
   | 'RespiratoryRate'
   | 'RestingHeartRate'
+  | 'Sleep'
+  | 'Speed'
   | 'Steps'
-  | 'Weight';
+  | 'TotalCaloriesBurned'
+  | 'Weight'
+  | 'WheelchairPushes';
 type RecordBase = {
   metadata: RecordMetadata;
 };
 type StoredRecord = RecordBase & Record;
+export type Volume = {
+  unit: 'milliliters' | 'fluidOunces';
+  value: number;
+};
+
+export type Distance = {
+  unit: 'kilometers' | 'meters' | 'miles' | 'feet';
+  value: number;
+};
+
+export type Speed = {
+  unit: 'metersPerSecond' | 'kilometersPerHour' | 'milesPerHour';
+  value: number;
+};
+
 export type Record =
   | {
       type: 'ActiveCaloriesBurned';
@@ -169,10 +193,96 @@ export type Record =
       count: number;
     }
   | {
+      type: 'Distance';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      distance: Distance;
+    }
+  | {
+      type: 'ExerciseSession';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      exerciseType: string;
+      title?: string;
+      notes?: string;
+    }
+  | {
+      type: 'FloorsClimbed';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      floors: number;
+    }
+  | {
+      type: 'Hydration';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      volume: Volume;
+    }
+  | {
+      type: 'Nutrition';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      name?: string;
+      mealType?: 'unknown' | 'breakfast' | 'lunch' | 'dinner' | 'snack';
+      energy?: Energy;
+      protein?: Mass;
+      totalFat?: Mass;
+      saturatedFat?: Mass;
+      unsaturatedFat?: Mass;
+      carbohydrates?: Mass;
+      sugar?: Mass;
+      fiber?: Mass;
+      sodium?: Mass;
+      potassium?: Mass;
+      cholesterol?: Mass;
+    }
+  | {
+      type: 'Sleep';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      stage: 'unknown' | 'awake' | 'sleeping' | 'out_of_bed' | 'light' | 'deep' | 'rem';
+    }
+  | {
+      type: 'Speed';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      speed: Speed;
+    }
+  | {
+      type: 'TotalCaloriesBurned';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      energy: Energy;
+    }
+  | {
       type: 'Weight';
       time: Date;
       zoneOffset?: string;
       weight: Mass;
+    }
+  | {
+      type: 'WheelchairPushes';
+      startTime: Date;
+      startZoneOffset?: string;
+      endTime: Date;
+      endZoneOffset?: string;
+      count: number;
     };
 export type RecordMetadata = {
   id: string;

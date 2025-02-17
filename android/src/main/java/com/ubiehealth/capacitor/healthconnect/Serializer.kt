@@ -4,7 +4,30 @@ import androidx.health.connect.client.changes.Change
 import androidx.health.connect.client.changes.DeletionChange
 import androidx.health.connect.client.changes.UpsertionChange
 import androidx.health.connect.client.impl.converters.datatype.RECORDS_CLASS_NAME_MAP
-import androidx.health.connect.client.records.*
+import androidx.health.connect.client.records.ActiveCaloriesBurnedRecord
+import androidx.health.connect.client.records.BasalBodyTemperatureRecord
+import androidx.health.connect.client.records.BasalMetabolicRateRecord
+import androidx.health.connect.client.records.BloodGlucoseRecord
+import androidx.health.connect.client.records.BloodPressureRecord
+import androidx.health.connect.client.records.BodyFatRecord
+import androidx.health.connect.client.records.BodyTemperatureRecord
+import androidx.health.connect.client.records.DistanceRecord
+import androidx.health.connect.client.records.ExerciseSessionRecord
+import androidx.health.connect.client.records.FloorsClimbedRecord
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.HeightRecord
+import androidx.health.connect.client.records.HydrationRecord
+import androidx.health.connect.client.records.NutritionRecord
+import androidx.health.connect.client.records.OxygenSaturationRecord
+import androidx.health.connect.client.records.Record
+import androidx.health.connect.client.records.RespiratoryRateRecord
+import androidx.health.connect.client.records.RestingHeartRateRecord
+import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.SpeedRecord
+import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
+import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.records.WheelchairPushesRecord
 import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_INT_TO_STRING_MAP
 import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_STRING_TO_INT_MAP
 import androidx.health.connect.client.records.metadata.DataOrigin
@@ -120,6 +143,83 @@ internal fun JSONObject.toRecord(): Record {
             zoneOffset = this.getZoneOffsetOrNull("zoneOffset"),
             weight = this.getMass("weight"),
         )
+        "Distance" -> DistanceRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            distance = this.getLength("distance"),
+        )
+        "ExerciseSession" -> ExerciseSessionRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            exerciseType = this.getString("exerciseType"),
+            title = this.optString("title"),
+            notes = this.optString("notes"),
+        )
+        "FloorsClimbed" -> FloorsClimbedRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            floors = this.getLong("floors"),
+        )
+        "Hydration" -> HydrationRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            volume = this.getVolume("volume"),
+        )
+        "Nutrition" -> NutritionRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            name = this.optString("name"),
+            mealType = MealType.MEAL_TYPE_STRING_TO_INT_MAP.getOrDefault(this.optString("mealType"), MealType.MEAL_TYPE_UNKNOWN),
+            energy = if (this.has("energy")) this.getEnergy("energy") else null,
+            protein = if (this.has("protein")) this.getMass("protein") else null,
+            totalFat = if (this.has("totalFat")) this.getMass("totalFat") else null,
+            saturatedFat = if (this.has("saturatedFat")) this.getMass("saturatedFat") else null,
+            unsaturatedFat = if (this.has("unsaturatedFat")) this.getMass("unsaturatedFat") else null,
+            carbohydrates = if (this.has("carbohydrates")) this.getMass("carbohydrates") else null,
+            sugar = if (this.has("sugar")) this.getMass("sugar") else null,
+            fiber = if (this.has("fiber")) this.getMass("fiber") else null,
+            sodium = if (this.has("sodium")) this.getMass("sodium") else null,
+            potassium = if (this.has("potassium")) this.getMass("potassium") else null,
+            cholesterol = if (this.has("cholesterol")) this.getMass("cholesterol") else null,
+        )
+        "Sleep" -> SleepSessionRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            stage = SleepSessionRecord.STAGE_STRING_TO_INT_MAP.getOrDefault(this.getString("stage"), SleepSessionRecord.STAGE_TYPE_UNKNOWN),
+        )
+        "Speed" -> SpeedRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            speed = this.getSpeed("speed"),
+        )
+        "TotalCaloriesBurned" -> TotalCaloriesBurnedRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            energy = this.getEnergy("energy"),
+        )
+        "WheelchairPushes" -> WheelchairPushesRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            count = this.getLong("count"),
+        )
         else -> throw IllegalArgumentException("Unexpected record type: $type")
     }
 }
@@ -209,12 +309,89 @@ internal fun Record.toJSONObject(): JSONObject {
                 obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
                 obj.put("count", this.count)
             }
+            is DistanceRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("distance", this.distance.toJSONObject())
+            }
+            is ExerciseSessionRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("exerciseType", this.exerciseType)
+                obj.put("title", this.title)
+                obj.put("notes", this.notes)
+            }
+            is FloorsClimbedRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("floors", this.floors)
+            }
+            is HydrationRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("volume", this.volume.toJSONObject())
+            }
+            is NutritionRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("name", this.name)
+                obj.put("mealType", MealType.MEAL_TYPE_INT_TO_STRING_MAP.getOrDefault(this.mealType, "unknown"))
+                obj.put("energy", this.energy?.toJSONObject())
+                obj.put("protein", this.protein?.toJSONObject())
+                obj.put("totalFat", this.totalFat?.toJSONObject())
+                obj.put("saturatedFat", this.saturatedFat?.toJSONObject())
+                obj.put("unsaturatedFat", this.unsaturatedFat?.toJSONObject())
+                obj.put("carbohydrates", this.carbohydrates?.toJSONObject())
+                obj.put("sugar", this.sugar?.toJSONObject())
+                obj.put("fiber", this.fiber?.toJSONObject())
+                obj.put("sodium", this.sodium?.toJSONObject())
+                obj.put("potassium", this.potassium?.toJSONObject())
+                obj.put("cholesterol", this.cholesterol?.toJSONObject())
+            }
+            is SleepSessionRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("stage", SleepSessionRecord.STAGE_INT_TO_STRING_MAP.getOrDefault(this.stage, "unknown"))
+            }
+            is SpeedRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("speed", this.speed.toJSONObject())
+            }
+            is TotalCaloriesBurnedRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("energy", this.energy.toJSONObject())
+            }
             is WeightRecord -> {
                 obj.put("time", this.time)
                 obj.put("zoneOffset", this.zoneOffset?.toJSONValue())
                 obj.put("weight", this.weight.toJSONObject())
             }
-            else -> throw IllegalArgumentException("Unexpected record class: $${this::class.qualifiedName}")
+            is WheelchairPushesRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("count", this.count)
+            }
+            else -> throw IllegalArgumentException("Unexpected record class: ${this::class.qualifiedName}")
         }
     }
 }
@@ -452,4 +629,39 @@ internal fun JSONObject.getPercentage(name: String): Percentage {
     val obj = requireNotNull(this.getJSONObject(name))
     val value = obj.getDouble("value")
     return Percentage(value)
+}
+
+internal fun Volume.toJSONObject(): JSONObject {
+    return JSONObject().also { obj ->
+        obj.put("unit", "milliliters") // TODO: support other units
+        obj.put("value", this.inMilliliters)
+    }
+}
+
+internal fun JSONObject.getVolume(name: String): Volume {
+    val obj = requireNotNull(this.getJSONObject(name))
+    val value = obj.getDouble("value")
+    return when (val unit = obj.getString("unit")) {
+        "milliliters" -> Volume.milliliters(value)
+        "fluidOunces" -> Volume.fluidOunces(value)
+        else -> throw RuntimeException("Invalid Volume unit: $unit")
+    }
+}
+
+internal fun androidx.health.connect.client.units.Speed.toJSONObject(): JSONObject {
+    return JSONObject().also { obj ->
+        obj.put("unit", "metersPerSecond") // TODO: support other units
+        obj.put("value", this.inMetersPerSecond)
+    }
+}
+
+internal fun JSONObject.getSpeed(name: String): androidx.health.connect.client.units.Speed {
+    val obj = requireNotNull(this.getJSONObject(name))
+    val value = obj.getDouble("value")
+    return when (val unit = obj.getString("unit")) {
+        "metersPerSecond" -> androidx.health.connect.client.units.Speed.metersPerSecond(value)
+        "kilometersPerHour" -> androidx.health.connect.client.units.Speed.kilometersPerHour(value)
+        "milesPerHour" -> androidx.health.connect.client.units.Speed.milesPerHour(value)
+        else -> throw RuntimeException("Invalid Speed unit: $unit")
+    }
 }
