@@ -120,6 +120,31 @@ internal fun JSONObject.toRecord(): Record {
             zoneOffset = this.getZoneOffsetOrNull("zoneOffset"),
             weight = this.getMass("weight"),
         )
+        "Sleep" -> SleepSessionRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            title = this.optString("title"),
+            notes = this.optString("notes"),
+            stages = this.optJSONArray("stages")?.toList<JSONObject>()?.map { stage ->
+                SleepSessionRecord.Stage(
+                    startTime = stage.getInstant("startTime"),
+                    endTime = stage.getInstant("endTime"),
+                    stage = SleepSessionRecord.STAGE_TYPE_STRING_TO_INT_MAP.getOrDefault(
+                        stage.getString("stage"),
+                        SleepSessionRecord.STAGE_TYPE_UNKNOWN
+                    )
+                )
+            } ?: emptyList()
+        )
+        "Hydration" -> HydrationRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            volume = this.getVolume("volume"),
+        )
         else -> throw IllegalArgumentException("Unexpected record type: $type")
     }
 }
@@ -213,6 +238,30 @@ internal fun Record.toJSONObject(): JSONObject {
                 obj.put("time", this.time)
                 obj.put("zoneOffset", this.zoneOffset?.toJSONValue())
                 obj.put("weight", this.weight.toJSONObject())
+            }
+            is SleepSessionRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                this.title?.let { obj.put("title", it) }
+                this.notes?.let { obj.put("notes", it) }
+                if (this.stages.isNotEmpty()) {
+                    obj.put("stages", this.stages.map { stage ->
+                        JSONObject().apply {
+                            put("startTime", stage.startTime)
+                            put("endTime", stage.endTime)
+                            put("stage", SleepSessionRecord.STAGE_TYPE_INT_TO_STRING_MAP.getOrDefault(stage.stage, "unknown"))
+                        }
+                    }.toJSONArray())
+                }
+            }
+            is HydrationRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("volume", this.volume.toJSONObject())
             }
             else -> throw IllegalArgumentException("Unexpected record class: $${this::class.qualifiedName}")
         }
@@ -452,4 +501,22 @@ internal fun JSONObject.getPercentage(name: String): Percentage {
     val obj = requireNotNull(this.getJSONObject(name))
     val value = obj.getDouble("value")
     return Percentage(value)
+}
+
+internal fun JSONObject.getVolume(name: String): Volume {
+    val obj = requireNotNull(this.getJSONObject(name))
+    val unit = obj.getString("unit")
+    val value = obj.getDouble("value")
+    return when (unit) {
+        "milliliter" -> Volume.milliliters(value)
+        "liter" -> Volume.liters(value)
+        else -> throw IllegalArgumentException("Unexpected volume unit: $unit")
+    }
+}
+
+internal fun Volume.toJSONObject(): JSONObject {
+    return JSONObject().also { obj ->
+        obj.put("unit", "milliliter") // TODO: support other units
+        obj.put("value", this.inMilliliters)
+    }
 }

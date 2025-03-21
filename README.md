@@ -31,6 +31,7 @@ const healthConnectAvailability = await HealthConnect.checkAvailability();
 * [`checkHealthPermissions(...)`](#checkhealthpermissions)
 * [`revokeHealthPermissions()`](#revokehealthpermissions)
 * [`openHealthConnectSetting()`](#openhealthconnectsetting)
+* [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
 </docgen-index>
@@ -41,10 +42,10 @@ const healthConnectAvailability = await HealthConnect.checkAvailability();
 ### checkAvailability()
 
 ```typescript
-checkAvailability() => any
+checkAvailability() => Promise<{ availability: HealthConnectAvailability; }>
 ```
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ availability: <a href="#healthconnectavailability">HealthConnectAvailability</a>; }&gt;</code>
 
 --------------------
 
@@ -52,14 +53,14 @@ checkAvailability() => any
 ### insertRecords(...)
 
 ```typescript
-insertRecords(options: { records: Record[]; }) => any
+insertRecords(options: { records: Record[]; }) => Promise<{ recordIds: string[]; }>
 ```
 
-| Param         | Type                          |
-| ------------- | ----------------------------- |
-| **`options`** | <code>{ records: {}; }</code> |
+| Param         | Type                                |
+| ------------- | ----------------------------------- |
+| **`options`** | <code>{ records: Record[]; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ recordIds: string[]; }&gt;</code>
 
 --------------------
 
@@ -67,14 +68,14 @@ insertRecords(options: { records: Record[]; }) => any
 ### readRecord(...)
 
 ```typescript
-readRecord(options: { type: RecordType; recordId: string; }) => any
+readRecord(options: { type: RecordType; recordId: string; }) => Promise<{ record: StoredRecord; }>
 ```
 
 | Param         | Type                                                                           |
 | ------------- | ------------------------------------------------------------------------------ |
 | **`options`** | <code>{ type: <a href="#recordtype">RecordType</a>; recordId: string; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ record: <a href="#storedrecord">StoredRecord</a>; }&gt;</code>
 
 --------------------
 
@@ -82,14 +83,14 @@ readRecord(options: { type: RecordType; recordId: string; }) => any
 ### readRecords(...)
 
 ```typescript
-readRecords(options: { type: RecordType; timeRangeFilter: TimeRangeFilter; dataOriginFilter?: string[]; ascendingOrder?: boolean; pageSize?: number; pageToken?: string; }) => any
+readRecords(options: { type: RecordType; timeRangeFilter: TimeRangeFilter; dataOriginFilter?: string[]; ascendingOrder?: boolean; pageSize?: number; pageToken?: string; }) => Promise<{ records: StoredRecord[]; pageToken?: string; }>
 ```
 
-| Param         | Type                                                                                                                                                                                                                  |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ type: <a href="#recordtype">RecordType</a>; timeRangeFilter: <a href="#timerangefilter">TimeRangeFilter</a>; dataOriginFilter?: {}; ascendingOrder?: boolean; pageSize?: number; pageToken?: string; }</code> |
+| Param         | Type                                                                                                                                                                                                                        |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ type: <a href="#recordtype">RecordType</a>; timeRangeFilter: <a href="#timerangefilter">TimeRangeFilter</a>; dataOriginFilter?: string[]; ascendingOrder?: boolean; pageSize?: number; pageToken?: string; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ records: StoredRecord[]; pageToken?: string; }&gt;</code>
 
 --------------------
 
@@ -97,14 +98,14 @@ readRecords(options: { type: RecordType; timeRangeFilter: TimeRangeFilter; dataO
 ### getChangesToken(...)
 
 ```typescript
-getChangesToken(options: { types: RecordType[]; }) => any
+getChangesToken(options: { types: RecordType[]; }) => Promise<{ token: string; }>
 ```
 
-| Param         | Type                        |
-| ------------- | --------------------------- |
-| **`options`** | <code>{ types: {}; }</code> |
+| Param         | Type                                  |
+| ------------- | ------------------------------------- |
+| **`options`** | <code>{ types: RecordType[]; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ token: string; }&gt;</code>
 
 --------------------
 
@@ -112,14 +113,14 @@ getChangesToken(options: { types: RecordType[]; }) => any
 ### getChanges(...)
 
 ```typescript
-getChanges(options: { token: string; }) => any
+getChanges(options: { token: string; }) => Promise<{ changes: Change[]; nextToken: string; }>
 ```
 
 | Param         | Type                            |
 | ------------- | ------------------------------- |
 | **`options`** | <code>{ token: string; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ changes: Change[]; nextToken: string; }&gt;</code>
 
 --------------------
 
@@ -127,14 +128,14 @@ getChanges(options: { token: string; }) => any
 ### requestHealthPermissions(...)
 
 ```typescript
-requestHealthPermissions(options: { read: RecordType[]; write: RecordType[]; }) => any
+requestHealthPermissions(options: { read: RecordType[]; write: RecordType[]; }) => Promise<{ grantedPermissions: string[]; hasAllPermissions: boolean; }>
 ```
 
-| Param         | Type                                  |
-| ------------- | ------------------------------------- |
-| **`options`** | <code>{ read: {}; write: {}; }</code> |
+| Param         | Type                                                      |
+| ------------- | --------------------------------------------------------- |
+| **`options`** | <code>{ read: RecordType[]; write: RecordType[]; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ grantedPermissions: string[]; hasAllPermissions: boolean; }&gt;</code>
 
 --------------------
 
@@ -142,14 +143,14 @@ requestHealthPermissions(options: { read: RecordType[]; write: RecordType[]; }) 
 ### checkHealthPermissions(...)
 
 ```typescript
-checkHealthPermissions(options: { read: RecordType[]; write: RecordType[]; }) => any
+checkHealthPermissions(options: { read: RecordType[]; write: RecordType[]; }) => Promise<{ grantedPermissions: string[]; hasAllPermissions: boolean; }>
 ```
 
-| Param         | Type                                  |
-| ------------- | ------------------------------------- |
-| **`options`** | <code>{ read: {}; write: {}; }</code> |
+| Param         | Type                                                      |
+| ------------- | --------------------------------------------------------- |
+| **`options`** | <code>{ read: RecordType[]; write: RecordType[]; }</code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;{ grantedPermissions: string[]; hasAllPermissions: boolean; }&gt;</code>
 
 --------------------
 
@@ -157,10 +158,8 @@ checkHealthPermissions(options: { read: RecordType[]; write: RecordType[]; }) =>
 ### revokeHealthPermissions()
 
 ```typescript
-revokeHealthPermissions() => any
+revokeHealthPermissions() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -168,12 +167,64 @@ revokeHealthPermissions() => any
 ### openHealthConnectSetting()
 
 ```typescript
-openHealthConnectSetting() => any
+openHealthConnectSetting() => Promise<void>
 ```
 
-**Returns:** <code>any</code>
-
 --------------------
+
+
+### Interfaces
+
+
+#### Date
+
+Enables basic storage and retrieval of dates and times.
+
+| Method                 | Signature                                                                                                    | Description                                                                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **toString**           | () =&gt; string                                                                                              | Returns a string representation of a date. The format of the string depends on the locale.                                              |
+| **toDateString**       | () =&gt; string                                                                                              | Returns a date as a string value.                                                                                                       |
+| **toTimeString**       | () =&gt; string                                                                                              | Returns a time as a string value.                                                                                                       |
+| **toLocaleString**     | () =&gt; string                                                                                              | Returns a value as a string value appropriate to the host environment's current locale.                                                 |
+| **toLocaleDateString** | () =&gt; string                                                                                              | Returns a date as a string value appropriate to the host environment's current locale.                                                  |
+| **toLocaleTimeString** | () =&gt; string                                                                                              | Returns a time as a string value appropriate to the host environment's current locale.                                                  |
+| **valueOf**            | () =&gt; number                                                                                              | Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.                                                      |
+| **getTime**            | () =&gt; number                                                                                              | Gets the time value in milliseconds.                                                                                                    |
+| **getFullYear**        | () =&gt; number                                                                                              | Gets the year, using local time.                                                                                                        |
+| **getUTCFullYear**     | () =&gt; number                                                                                              | Gets the year using Universal Coordinated Time (UTC).                                                                                   |
+| **getMonth**           | () =&gt; number                                                                                              | Gets the month, using local time.                                                                                                       |
+| **getUTCMonth**        | () =&gt; number                                                                                              | Gets the month of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                             |
+| **getDate**            | () =&gt; number                                                                                              | Gets the day-of-the-month, using local time.                                                                                            |
+| **getUTCDate**         | () =&gt; number                                                                                              | Gets the day-of-the-month, using Universal Coordinated Time (UTC).                                                                      |
+| **getDay**             | () =&gt; number                                                                                              | Gets the day of the week, using local time.                                                                                             |
+| **getUTCDay**          | () =&gt; number                                                                                              | Gets the day of the week using Universal Coordinated Time (UTC).                                                                        |
+| **getHours**           | () =&gt; number                                                                                              | Gets the hours in a date, using local time.                                                                                             |
+| **getUTCHours**        | () =&gt; number                                                                                              | Gets the hours value in a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                       |
+| **getMinutes**         | () =&gt; number                                                                                              | Gets the minutes of a <a href="#date">Date</a> object, using local time.                                                                |
+| **getUTCMinutes**      | () =&gt; number                                                                                              | Gets the minutes of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                           |
+| **getSeconds**         | () =&gt; number                                                                                              | Gets the seconds of a <a href="#date">Date</a> object, using local time.                                                                |
+| **getUTCSeconds**      | () =&gt; number                                                                                              | Gets the seconds of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                           |
+| **getMilliseconds**    | () =&gt; number                                                                                              | Gets the milliseconds of a <a href="#date">Date</a>, using local time.                                                                  |
+| **getUTCMilliseconds** | () =&gt; number                                                                                              | Gets the milliseconds of a <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                      |
+| **getTimezoneOffset**  | () =&gt; number                                                                                              | Gets the difference in minutes between the time on the local computer and Universal Coordinated Time (UTC).                             |
+| **setTime**            | (time: number) =&gt; number                                                                                  | Sets the date and time value in the <a href="#date">Date</a> object.                                                                    |
+| **setMilliseconds**    | (ms: number) =&gt; number                                                                                    | Sets the milliseconds value in the <a href="#date">Date</a> object using local time.                                                    |
+| **setUTCMilliseconds** | (ms: number) =&gt; number                                                                                    | Sets the milliseconds value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                              |
+| **setSeconds**         | (sec: number, ms?: number \| undefined) =&gt; number                                                         | Sets the seconds value in the <a href="#date">Date</a> object using local time.                                                         |
+| **setUTCSeconds**      | (sec: number, ms?: number \| undefined) =&gt; number                                                         | Sets the seconds value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                   |
+| **setMinutes**         | (min: number, sec?: number \| undefined, ms?: number \| undefined) =&gt; number                              | Sets the minutes value in the <a href="#date">Date</a> object using local time.                                                         |
+| **setUTCMinutes**      | (min: number, sec?: number \| undefined, ms?: number \| undefined) =&gt; number                              | Sets the minutes value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                   |
+| **setHours**           | (hours: number, min?: number \| undefined, sec?: number \| undefined, ms?: number \| undefined) =&gt; number | Sets the hour value in the <a href="#date">Date</a> object using local time.                                                            |
+| **setUTCHours**        | (hours: number, min?: number \| undefined, sec?: number \| undefined, ms?: number \| undefined) =&gt; number | Sets the hours value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                     |
+| **setDate**            | (date: number) =&gt; number                                                                                  | Sets the numeric day-of-the-month value of the <a href="#date">Date</a> object using local time.                                        |
+| **setUTCDate**         | (date: number) =&gt; number                                                                                  | Sets the numeric day of the month in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                        |
+| **setMonth**           | (month: number, date?: number \| undefined) =&gt; number                                                     | Sets the month value in the <a href="#date">Date</a> object using local time.                                                           |
+| **setUTCMonth**        | (month: number, date?: number \| undefined) =&gt; number                                                     | Sets the month value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                     |
+| **setFullYear**        | (year: number, month?: number \| undefined, date?: number \| undefined) =&gt; number                         | Sets the year of the <a href="#date">Date</a> object using local time.                                                                  |
+| **setUTCFullYear**     | (year: number, month?: number \| undefined, date?: number \| undefined) =&gt; number                         | Sets the year value in the <a href="#date">Date</a> object using Universal Coordinated Time (UTC).                                      |
+| **toUTCString**        | () =&gt; string                                                                                              | Returns a date converted to a string using Universal Coordinated Time (UTC).                                                            |
+| **toISOString**        | () =&gt; string                                                                                              | Returns a date as a string value in ISO format.                                                                                         |
+| **toJSON**             | (key?: any) =&gt; string                                                                                     | Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization. |
 
 
 ### Type Aliases
@@ -186,57 +237,9 @@ openHealthConnectSetting() => any
 
 #### Record
 
-<code>{ type: 'ActiveCaloriesBurned'; startTime: Date; startZoneOffset?: string; endTime: Date; endZoneOffset?: string; energy: <a href="#energy">Energy</a>; } | { type: 'BasalBodyTemperature'; time: Date; zoneOffset?: string; temperature: <a href="#temperature">Temperature</a>; measurementLocation: | 'unknown' | 'armpit' | 'finger' | 'forehead' | 'mouth' | 'rectum' | 'temporal_artery' | 'toe' | 'ear' | 'wrist' | 'vagina'; } | { type: 'BasalMetabolicRate'; time: Date; zoneOffset?: string; basalMetabolicRate: <a href="#power">Power</a>; } | { type: '<a href="#bloodglucose">BloodGlucose</a>'; time: Date; zoneOffset?: string; level: <a href="#bloodglucose">BloodGlucose</a>; specimenSource: | 'unknown' | 'interstitial_fluid' | 'capillary_blood' | 'plasma' | 'serum' | 'tears' | 'whole_blood'; mealType: 'unknown' | 'breakfast' | 'lunch' | 'dinner' | 'snack'; relationToMeal: 'unknown' | 'general' | 'fasting' | 'before_meal' | 'after_meal'; } | { type: 'BloodPressure'; time: Date; zoneOffset?: string; systolic: <a href="#pressure">Pressure</a>; diastolic: <a href="#pressure">Pressure</a>; bodyPosition: 'unknown' | 'standing_up' | 'sitting_down' | 'lying_down' | 'reclining'; measurementLocation: 'unknown' | 'left_wrist' | 'right_wrist' | 'left_upper_arm' | 'right_upper_arm'; } | { type: 'BodyFat'; time: Date; zoneOffset?: string; percentage: <a href="#percentage">Percentage</a>; } | { type: 'BodyTemperature'; time: Date; zoneOffset?: string; temperature: <a href="#temperature">Temperature</a>; measurementLocation: 'unknown' | 'armpit' | 'finger' | 'forehead' | 'mouth' | 'rectum' | 'temporal_artery' | 'toe' | 'ear' | 'wrist' | 'vagina'; } | { type: 'HeartRateSeries'; startTime: Date; startZoneOffset?: string; endTime: Date; endZoneOffset?: string; samples: HeartRateSample[]; } | { type: 'Height'; time: Date; zoneOffset?: string; height: <a href="#length">Length</a>; } | { type: 'OxygenSaturation'; time: Date; zoneOffset?: string; percentage: <a href="#percentage">Percentage</a>; } | { type: 'RespiratoryRate'; time: Date; zoneOffset?: string; rate: number; } | { type: 'RestingHeartRate'; time: Date; zoneOffset?: string; beatsPerMinute: number; } | { type: 'Steps'; startTime: Date; startZoneOffset?: string; endTime: Date; endZoneOffset?: string; count: number; } | { type: 'Weight'; time: Date; zoneOffset?: string; weight: <a href="#mass">Mass</a>; }</code>
+Construct a type with a set of properties K of type T
 
-
-#### Energy
-
-<code>{ unit: 'calories' | 'kilocalories' | 'joules' | 'kilojoules'; value: number; }</code>
-
-
-#### Temperature
-
-<code>{ unit: 'celsius' | 'fahrenheit'; value: number; }</code>
-
-
-#### Power
-
-<code>{ unit: 'kilocaloriesPerDay' | 'watts'; value: number; }</code>
-
-
-#### BloodGlucose
-
-<code>{ unit: 'milligramsPerDeciliter' | 'millimolesPerLiter'; value: number; }</code>
-
-
-#### Pressure
-
-<code>{ unit: 'millimetersOfMercury'; value: number; }</code>
-
-
-#### Percentage
-
-<code>{ value: number; }</code>
-
-
-#### HeartRateSample
-
-<code>{ time: Date; beatsPerMinute: number; }</code>
-
-
-#### Length
-
-<code>{ unit: 'meter' | 'kilometer' | 'mile' | 'inch' | 'feet'; value: number; }</code>
-
-
-#### Mass
-
-<code>{ unit: 'gram' | 'kilogram' | 'milligram' | 'microgram' | 'ounce' | 'pound'; value: number; }</code>
-
-
-#### RecordType
-
-<code>'ActiveCaloriesBurned' | 'BasalBodyTemperature' | 'BasalMetabolicRate' | '<a href="#bloodglucose">BloodGlucose</a>' | 'BloodPressure' | 'BodyFat' | 'BodyTemperature' | 'HeartRateSeries' | 'Height' | 'OxygenSaturation' | 'RespiratoryRate' | 'RestingHeartRate' | 'Steps' | 'Weight'</code>
+<code>{ [P in K]: T; }</code>
 
 
 #### StoredRecord
@@ -246,21 +249,26 @@ openHealthConnectSetting() => any
 
 #### RecordBase
 
-<code>{ metadata: <a href="#recordmetadata">RecordMetadata</a>; }</code>
+<code>{ metadata: <a href="#recordmetadata">RecordMetadata</a>; }</code>
 
 
 #### RecordMetadata
 
-<code>{ id: string; clientRecordId?: string; clientRecordVersion: number; lastModifiedTime: Date; dataOrigin: string; }</code>
+<code>{ id: string; clientRecordId?: string; clientRecordVersion: number; lastModifiedTime: <a href="#date">Date</a>; dataOrigin: string; }</code>
+
+
+#### RecordType
+
+<code>'ActiveCaloriesBurned' | 'BasalBodyTemperature' | 'BasalMetabolicRate' | 'BloodGlucose' | 'BloodPressure' | 'BodyFat' | 'BodyTemperature' | 'Distance' | 'ExerciseSession' | 'FloorsClimbed' | 'HeartRateSeries' | 'Height' | 'Hydration' | 'Nutrition' | 'OxygenSaturation' | 'RespiratoryRate' | 'RestingHeartRate' | 'Sleep' | 'Speed' | 'Steps' | 'TotalCaloriesBurned' | 'Weight' | 'WheelchairPushes'</code>
 
 
 #### TimeRangeFilter
 
-<code>{ type: 'before' | 'after'; time: Date; } | { type: 'between'; startTime: Date; endTime: Date; }</code>
+<code>{ type: 'before' | 'after'; time: <a href="#date">Date</a>; } | { type: 'between'; startTime: <a href="#date">Date</a>; endTime: <a href="#date">Date</a>; }</code>
 
 
 #### Change
 
-<code>{ type: 'Upsert'; record: <a href="#record">Record</a>; } | { type: 'Delete'; recordId: string; }</code>
+<code>{ type: 'Upsert'; record: <a href="#record">Record</a>; } | { type: 'Delete'; recordId: string; }</code>
 
 </docgen-api>

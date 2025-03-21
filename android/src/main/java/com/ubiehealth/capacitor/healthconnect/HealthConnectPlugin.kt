@@ -44,6 +44,9 @@ import java.lang.RuntimeException
 import java.time.Instant
 import java.time.ZoneOffset
 import java.util.Date
+import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.HydrationRecord
+import androidx.health.connect.client.units.Volume
 
 @CapacitorPlugin(name = "HealthConnect")
 class HealthConnectPlugin : Plugin() {

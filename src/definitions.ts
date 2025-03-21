@@ -67,7 +67,7 @@ type RecordBase = {
 };
 type StoredRecord = RecordBase & Record;
 export type Volume = {
-  unit: 'milliliters' | 'fluidOunces';
+  unit: 'milliliter' | 'liter' | 'fluid_ounce';
   value: number;
 };
 
@@ -252,7 +252,13 @@ export type Record =
       startZoneOffset?: string;
       endTime: Date;
       endZoneOffset?: string;
-      stage: 'unknown' | 'awake' | 'sleeping' | 'out_of_bed' | 'light' | 'deep' | 'rem';
+      title?: string;
+      notes?: string;
+      stages?: Array<{
+        startTime: Date;
+        endTime: Date;
+        stage: 'unknown' | 'awake' | 'sleeping' | 'out_of_bed' | 'light' | 'deep' | 'rem' | 'awake_in_bed';
+      }>;
     }
   | {
       type: 'Speed';
