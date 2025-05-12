@@ -145,6 +145,13 @@ internal fun JSONObject.toRecord(): Record {
             endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
             volume = this.getVolume("volume"),
         )
+        "TotalCaloriesBurned" -> TotalCaloriesBurnedRecord(
+            startTime = this.getInstant("startTime"),
+            startZoneOffset = this.getZoneOffsetOrNull("startZoneOffset"),
+            endTime = this.getInstant("endTime"),
+            endZoneOffset = this.getZoneOffsetOrNull("endZoneOffset"),
+            energy = this.getEnergy("energy"),
+        )
         else -> throw IllegalArgumentException("Unexpected record type: $type")
     }
 }
@@ -262,6 +269,13 @@ internal fun Record.toJSONObject(): JSONObject {
                 obj.put("endTime", this.endTime)
                 obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
                 obj.put("volume", this.volume.toJSONObject())
+            }
+            is TotalCaloriesBurnedRecord -> {
+                obj.put("startTime", this.startTime)
+                obj.put("startZoneOffset", this.startZoneOffset?.toJSONValue())
+                obj.put("endTime", this.endTime)
+                obj.put("endZoneOffset", this.endZoneOffset?.toJSONValue())
+                obj.put("energy", this.energy.toJSONObject())
             }
             else -> throw IllegalArgumentException("Unexpected record class: $${this::class.qualifiedName}")
         }
